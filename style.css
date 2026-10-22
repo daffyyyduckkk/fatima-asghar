@@ -1,0 +1,1313 @@
+/* ===== Fonts (bundled in /fonts, nothing loads from Google) ===== */
+@font-face {
+  font-family: 'Tangerine';
+  src: url('fonts/tangerine.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Libre Baskerville';
+  src: url('fonts/lb.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Libre Baskerville';
+  src: url('fonts/lbi.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: italic;
+  font-display: block;
+}
+
+/* Jameel Noori is large (5 MB). Noto Nastaliq (160 KB) shows right away, then Jameel replaces it once it has downloaded. */
+@font-face {
+  font-family: 'Jameel Noori Nastaleeq';
+  src: url('fonts/jameel.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noto Nastaliq Urdu';
+  src: url('fonts/noto-nastaliq-urdu.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ===== Tokens ===== */
+:root {
+  color-scheme: light;
+  --bg: #F8EDE3;
+  --sand: #DFD3C3;
+  --line: #D0B8A8;
+  --accent: #8D493A;
+  --soft: #8D493A;
+  --ink: #4a2218;
+  --muted: #6f4f44;
+  --radius: 26px;
+  --serif: 'Libre Baskerville', Georgia, serif;
+  --script: 'Tangerine', cursive;
+  --urdu: 'Jameel Noori Nastaleeq', 'Noto Nastaliq Urdu', 'Noto Naskh Arabic', 'Segoe UI', Tahoma, serif;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ===== Base ===== */
+* {
+  box-sizing: border-box
+}
+
+html {
+  scroll-padding-top: calc(84px + env(safe-area-inset-top, 0px));
+  scroll-behavior: smooth
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  background-image: radial-gradient(ellipse at 50% -10%, rgba(223, 211, 195, .55), transparent 60%);
+  background-repeat: no-repeat;
+  color: var(--ink);
+  font: 400 15px/1.9 var(--serif);
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+.ur {
+  font-family: var(--urdu);
+  line-height: 2.4
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  margin: 0;
+  line-height: 1.2
+}
+
+img {
+  max-width: 100%;
+  display: block
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 4px
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg)
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px
+}
+
+canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5
+}
+
+.skip {
+  position: absolute;
+  left: -999px;
+  top: 8px;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 8px 14px;
+  z-index: 20
+}
+
+.skip:focus {
+  left: 8px
+}
+
+.wrap {
+  max-width: 980px;
+  margin: auto;
+  padding: 0 clamp(18px, 6vw, 60px)
+}
+
+.lab {
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  font-size: .75rem;
+  color: var(--accent)
+}
+
+.ln {
+  display: block;
+  width: 34px;
+  height: 1px;
+  background: var(--accent);
+  margin: 26px auto 0
+}
+
+/* ===== Nav ===== */
+nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 6;
+  background: rgba(248, 237, 227, .88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px
+}
+
+.logo {
+  font: 700 3.2rem/1 var(--script);
+  color: var(--ink);
+  text-decoration: none
+}
+
+.lk a {
+  color: var(--soft);
+  text-decoration: none;
+  padding: 12px 12px;
+  font-size: .72rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  display: inline-block;
+  position: relative;
+  transition: color .25s;
+}
+
+.lk a::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 6px;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s;
+}
+
+.lk a:hover {
+  color: var(--ink)
+}
+
+.lk a:hover::after,
+.lk a.on::after {
+  transform: scaleX(1)
+}
+
+.lk a.on {
+  color: var(--ink)
+}
+
+.mb {
+  display: none;
+  background: none;
+  border: 1px solid var(--accent);
+  color: var(--ink);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: .7rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* ===== Hero ===== */
+.hero {
+  padding: clamp(48px, 13vh, 120px) 0 clamp(50px, 11vh, 100px);
+  text-align: center
+}
+
+.nm {
+  font: 700 clamp(4.4rem, 16vw, 7.6rem)/1 var(--script);
+  color: var(--accent);
+  margin-top: 10px
+}
+
+.hero h1 {
+  font-size: clamp(1.7rem, 5.2vw, 3.2rem);
+  margin: 26px auto 20px;
+  max-width: 15em
+}
+
+.hero h1 i {
+  font-style: italic;
+  color: var(--accent)
+}
+
+.hero p {
+  color: var(--soft);
+  max-width: 30em;
+  margin: 0 auto 34px
+}
+
+.btns {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap
+}
+
+.btn {
+  display: inline-block;
+  padding: 14px 32px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+  font: inherit;
+  font-size: .72rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  background: none;
+  cursor: pointer;
+  transition: background .25s, color .25s, border-color .25s, transform .25s;
+}
+
+.btn:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+  transform: translateY(-2px)
+}
+
+.btn.solid {
+  background: var(--accent);
+  color: var(--bg)
+}
+
+.btn.solid:hover {
+  background: var(--ink)
+}
+
+/* ===== Sections ===== */
+section {
+  padding: clamp(44px, 8vh, 84px) 0;
+  border-top: 1px solid var(--line)
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3.6vw, 2.1rem);
+  margin: 12px 0 8px
+}
+
+.sub {
+  color: var(--soft);
+  margin: 0 0 34px
+}
+
+/* ===== Covers & novel cards ===== */
+.cv {
+  aspect-ratio: 640/829;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 0 12px 30px rgba(141, 73, 58, .22);
+  transition: transform .4s, box-shadow .4s;
+  background: var(--line);
+}
+
+.cv {
+  position: relative
+}
+
+.cv img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover
+}
+
+.cv.nocover img {
+  display: none
+}
+
+.cv.nocover::after {
+  content: attr(data-t);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  text-align: center;
+  font: italic 1.7rem/1.2 var(--serif);
+  color: var(--accent)
+}
+
+.feat {
+  display: grid;
+  grid-template-columns: minmax(170px, 250px) 1fr;
+  gap: clamp(22px, 5vw, 56px);
+  align-items: center;
+  background: var(--sand);
+  border-radius: 28px;
+  padding: clamp(18px, 4vw, 40px);
+  margin-bottom: 22px;
+  text-decoration: none;
+  color: var(--ink);
+  border: 1px solid transparent;
+  transition: border-color .3s, box-shadow .3s;
+}
+
+.feat:hover {
+  border-color: var(--line);
+  box-shadow: 0 18px 40px rgba(141, 73, 58, .12)
+}
+
+.feat:hover .cv {
+  transform: translateY(-6px) rotate(-.6deg);
+  box-shadow: 0 20px 40px rgba(141, 73, 58, .3)
+}
+
+.feat h3 {
+  font-style: italic;
+  font-size: clamp(1.7rem, 4vw, 2.3rem);
+  margin: 6px 0 0
+}
+
+.feat .ur {
+  font-size: 1.5rem;
+  color: var(--soft)
+}
+
+.feat p {
+  margin: 10px 0 18px
+}
+
+.feat .more {
+  font-size: .72rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 3px
+}
+
+.pill {
+  display: inline-block;
+  font-size: .72rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px 12px;
+  background: rgba(248, 237, 227, .6);
+}
+
+.tag {
+  color: var(--soft);
+  font-size: .88rem
+}
+
+/* ===== About ===== */
+.about {
+  margin: auto;
+  text-align: center;
+  max-width: 700px
+}
+
+.about p {
+  margin: 16px 0 0;
+  font-size: 1.02rem
+}
+
+.about .script {
+  font: 400 clamp(1.5rem, 4.6vw, 2.2rem)/1.35 var(--serif);
+  color: var(--ink);
+  margin: 8px 0 10px
+}
+
+.about .script .sig {
+  font: 700 1.9em/1 var(--script);
+  color: var(--accent);
+  white-space: nowrap
+}
+
+.about .lead {
+  font: italic 400 1.2rem/1.7 var(--serif);
+  color: var(--accent);
+  margin-top: 12px
+}
+
+.about .body {
+  text-align: left
+}
+
+.about .ur {
+  font-size: 1.6rem;
+  color: var(--soft);
+  margin-top: 22px;
+  text-align: right
+}
+
+/* ===== Follow ===== */
+.follow {
+  text-align: center
+}
+
+.follow .sub {
+  margin-bottom: 24px
+}
+
+.plats {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 26px auto 0;
+  padding: 0;
+  max-width: 34em
+}
+
+.plats li {
+  font-size: .82rem;
+  color: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  overflow: hidden
+}
+
+.plats li>* {
+  display: block;
+  padding: 9px 20px;
+  color: inherit;
+  text-decoration: none
+}
+
+.plats .lnk {
+  border-color: var(--accent);
+  color: var(--accent)
+}
+
+.plats a:hover {
+  background: var(--accent);
+  color: var(--bg)
+}
+
+/* ===== Novel page ===== */
+.back {
+  display: inline-block;
+  margin-top: 26px;
+  padding: 10px 0;
+  font-size: .72rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--soft);
+  text-decoration: none
+}
+
+.back:hover {
+  color: var(--ink)
+}
+
+.np {
+  display: grid;
+  grid-template-columns: minmax(200px, 300px) 1fr;
+  gap: clamp(26px, 6vw, 70px);
+  padding: 3vh 0 9vh;
+  align-items: start;
+  animation: fade .6s
+}
+
+.np .cv {
+  position: sticky;
+  top: 96px
+}
+
+.np h1 {
+  font-size: clamp(2.1rem, 6vw, 3.4rem);
+  margin: 12px 0 0;
+  font-style: italic
+}
+
+.np .ur {
+  font-size: 1.8rem;
+  color: var(--soft)
+}
+
+.np .tag {
+  margin: 6px 0 28px
+}
+
+.lines p {
+  margin: 0 0 12px;
+  font-size: 1.02rem
+}
+
+.lines p:last-child {
+  font: italic 400 1.2rem/1.7 var(--serif);
+  color: var(--accent);
+  margin-top: 24px
+}
+
+.np .sh {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font: 400 .75rem var(--serif);
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  margin: 46px 0 14px;
+  color: var(--accent);
+}
+
+.np .sh::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line)
+}
+
+/* Characters */
+.cast {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px
+}
+
+/* 2 columns = one pair per row */
+.char {
+  background: var(--sand);
+  border-radius: 20px;
+  padding: 16px 20px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid transparent;
+  transition: border-color .3s, transform .3s;
+}
+
+.char:hover {
+  border-color: var(--line);
+  transform: translateY(-2px)
+}
+
+.char b {
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.02rem;
+  line-height: 1.4
+}
+
+.char .ur {
+  font-size: 1.35rem;
+  color: var(--accent);
+  text-align: right;
+  line-height: 2.2
+}
+
+/* Episodes */
+.eps {
+  display: flex;
+  flex-direction: column
+}
+
+.ep {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: .92rem
+}
+
+.ep b {
+  font-weight: 400
+}
+
+.ep span {
+  font-size: .72rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent)
+}
+
+.ep.soon {
+  color: var(--muted)
+}
+
+.ep.soon span {
+  color: var(--muted);
+  border: 1px dashed var(--line);
+  border-radius: 999px;
+  padding: 2px 12px
+}
+
+/* ===== Footer & back-to-top ===== */
+footer {
+  text-align: center;
+  color: var(--soft);
+  font-size: .7rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 36px 18px 60px;
+  border-top: 1px solid var(--line)
+}
+
+#top {
+  position: fixed;
+  right: calc(16px + env(safe-area-inset-right, 0px));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 7;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--accent);
+  font-size: 1.1rem;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .3s, visibility .3s;
+}
+
+#top.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto
+}
+
+/* ===== Motion ===== */
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(10px)
+  }
+
+  to {
+    opacity: 1;
+    transform: none
+  }
+}
+
+.js .rv {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .8s, transform .8s
+}
+
+.js .rv.in {
+  opacity: 1;
+  transform: none
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 640px) {
+  .mb {
+    display: block
+  }
+
+  .lk {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    padding-bottom: 6px
+  }
+
+  .nav-open .lk {
+    display: flex
+  }
+
+  .lk a {
+    border-top: 1px solid var(--line);
+    padding: 15px 4px
+  }
+
+  .lk a::after {
+    display: none
+  }
+
+  .feat,
+  .np {
+    grid-template-columns: 1fr
+  }
+
+  .feat .cv,
+  .np .cv {
+    max-width: 240px;
+    margin: 0 auto;
+    position: static
+  }
+
+  .feat {
+    text-align: center
+  }
+
+  .np .tag {
+    margin-bottom: 20px
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 320px
+  }
+
+  .cast {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px
+  }
+
+  .char {
+    padding: 14px 14px 6px
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important
+  }
+
+  .js .rv {
+    opacity: 1;
+    transform: none
+  }
+}
+
+/* ===== Added ===== */
+.follow .read {
+  margin-top: 36px
+}
+
+.np .plats {
+  justify-content: flex-start;
+  margin: 0;
+  max-width: none
+}
+
+a.ep {
+  color: inherit;
+  text-decoration: none;
+  transition: background .25s, padding .25s
+}
+
+a.ep:hover {
+  background: var(--sand);
+  padding-left: 10px;
+  padding-right: 10px
+}
+
+/* ===== Fonts gate: page appears once the Latin fonts are ready ===== */
+.fl body {
+  visibility: hidden
+}
+
+.ur,
+.ub {
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none
+}
+
+/* ===== Responsive ===== */
+img,
+canvas {
+  max-width: 100%
+}
+
+@media (min-width: 641px) and (max-width: 980px) {
+  .np {
+    grid-template-columns: minmax(180px, 240px) 1fr;
+    gap: 32px
+  }
+}
+
+@media (max-width: 760px) {
+  body {
+    font-size: 15.5px
+  }
+
+  .lk a {
+    padding: 12px 8px;
+    letter-spacing: .14em
+  }
+
+  .lk a::after {
+    left: 8px;
+    right: 8px
+  }
+
+  .feat {
+    padding: 22px 18px
+  }
+
+  .about .ur {
+    font-size: 1.45rem
+  }
+}
+
+@media (max-width: 640px) {
+  .logo {
+    font-size: 3rem
+  }
+
+  .hero {
+    padding-top: 40px
+  }
+
+  .hero h1 {
+    margin-top: 20px
+  }
+
+  .np {
+    grid-template-columns: 1fr;
+    gap: 22px
+  }
+
+  .np .cv {
+    max-width: 230px;
+    margin: 0 auto
+  }
+
+  .lines p.ub,
+  .lines p.ub:last-child {
+    font-size: 1.2rem;
+    line-height: 2.4
+  }
+
+  .np .plats {
+    justify-content: center
+  }
+
+  .np .sh {
+    margin-top: 36px
+  }
+
+  .np h1,
+  .np .ur,
+  .np .tag,
+  .np .pill {
+    text-align: center
+  }
+
+  .np>div {
+    text-align: left
+  }
+
+  .np>div>.pill,
+  .np>div>h1,
+  .np>div>.ur,
+  .np>div>.tag {
+    display: block;
+    text-align: center
+  }
+
+  .np>div>.pill {
+    width: max-content;
+    margin: 0 auto
+  }
+
+  .loves {
+    padding: 14px 18px 6px
+  }
+
+  .about .ur {
+    font-size: 1.35rem
+  }
+
+  .ep {
+    flex-wrap: wrap
+  }
+
+  footer {
+    letter-spacing: .08em;
+    line-height: 1.8
+  }
+}
+
+@media (max-width: 420px) {
+  .wrap {
+    padding-left: 16px;
+    padding-right: 16px
+  }
+
+  .cast {
+    grid-template-columns: 1fr
+  }
+
+  .plats li {
+    font-size: .78rem
+  }
+
+  .plats li>* {
+    padding: 9px 16px
+  }
+
+  .btn {
+    padding: 14px 20px;
+    letter-spacing: .16em
+  }
+
+  .loves div:not(.lab) {
+    font-size: .95rem
+  }
+}
+
+@media (min-width: 1400px) {
+  body {
+    font-size: 16.5px
+  }
+
+  .wrap {
+    max-width: 1080px
+  }
+}
+
+
+/* ===== "I love writing" note card ===== */
+.loves {
+  position: relative;
+  background: #FCF6EF;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 24px clamp(20px, 5vw, 40px) 14px;
+  margin: 32px 0 10px;
+  box-shadow: 0 12px 26px rgba(141, 73, 58, .09);
+  text-align: left
+}
+
+.loves::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px dashed var(--line);
+  border-radius: 9px;
+  pointer-events: none
+}
+
+.loves .lab {
+  font: italic 400 1.15rem/1.4 var(--serif);
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: center;
+  color: var(--accent);
+  margin: 0 0 8px
+}
+
+.loves div:not(.lab) {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 4px;
+  border-bottom: 1px dotted var(--line);
+  font-style: italic;
+  font-size: .95rem;
+  line-height: 1.6
+}
+
+.loves div:last-child {
+  border-bottom: 0
+}
+
+.loves .bu {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%238D493A' d='M12 20.500s-7.500-4.600-9.500-9.200C1.200 8.100 3 4.500 6.400 4.500c2 0 3.600 1.200 4.600 2.800h2c1-1.600 2.600-2.800 4.600-2.800 3.400 0 5.200 3.600 3.900 6.800-2 4.600-9.500 9.200-9.500 9.200z'/%3E%3C/svg%3E") center/contain no-repeat;
+  box-shadow: none;
+  transform: none
+}
+
+/* ===== Hero intro ===== */
+.hero h1 {
+  text-wrap: balance
+}
+
+.hero .kick {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  max-width: 34em;
+  margin: 0 auto 14px;
+  font: italic 400 clamp(1.05rem, 2.6vw, 1.3rem)/1.6 var(--serif);
+  color: var(--accent);
+}
+
+.hero .kick::before,
+.hero .kick::after {
+  content: "";
+  flex: 1 1 24px;
+  max-width: 64px;
+  height: 1px;
+  background: var(--line)
+}
+
+.hero .kick span {
+  text-wrap: balance
+}
+
+.hero .intro {
+  max-width: 46em;
+  margin: 0 auto 36px;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 2;
+  text-wrap: balance
+}
+
+@media (max-width: 640px) {
+  .hero .kick::before,
+  .hero .kick::after {
+    display: none
+  }
+}
+
+
+/* ===== Urdu text: right-to-left, joined letters, readable Nastaliq ===== */
+.ur,
+.ub {
+  font-family: var(--urdu);
+  direction: rtl;
+  letter-spacing: 0 !important;
+  word-spacing: normal;
+  text-transform: none !important;
+  font-style: normal !important;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility
+}
+
+.ub {
+  text-align: right;
+  font-size: 1.25rem;
+  line-height: 2.5;
+  color: var(--ink)
+}
+
+.feat .ub {
+  margin: 10px 0 18px;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden
+}
+
+.lines p.ub,
+.lines p.ub:last-child {
+  font: normal 400 1.3rem/2.6 var(--urdu);
+  color: var(--ink);
+  margin: 0 0 14px
+}
+
+
+/* ===== Phone: smaller home hero ===== */
+@media (max-width: 640px) {
+  .logo {
+    font-size: 2.5rem
+  }
+
+  .hero {
+    padding: 28px 0 44px
+  }
+
+  .hero .lab {
+    font-size: .64rem;
+    letter-spacing: .24em
+  }
+
+  .nm {
+    font-size: clamp(3.2rem, 14vw, 4rem);
+    margin-top: 6px
+  }
+
+  .hero .ln {
+    margin-top: 16px
+  }
+
+  .hero h1 {
+    font-size: 1.45rem;
+    margin: 16px auto 14px
+  }
+
+  .hero .kick {
+    font-size: .98rem;
+    margin-bottom: 10px
+  }
+
+  .hero .intro {
+    font-size: .9rem;
+    line-height: 1.85;
+    margin-bottom: 26px
+  }
+
+  .hero .btn {
+    padding: 12px 20px;
+    font-size: .68rem
+  }
+}
+
+
+/* ===== QA fixes ===== */
+/* heading is focused by script for screen readers; don't draw a box around it */
+#novelView h1:focus,
+#novelView h1:focus-visible {
+  outline: none
+}
+
+/* Urdu title sits next to the English title on tablet/desktop (it was jumping to the far right) */
+@media (min-width: 641px) {
+  .feat > div > .ur,
+  .np > div > .ur {
+    text-align: left
+  }
+}
+
+/* keep the top bar on one row just above the phone breakpoint */
+@media (min-width: 641px) and (max-width: 720px) {
+  .logo {
+    font-size: 2.6rem
+  }
+
+  .lk a {
+    padding: 12px 7px;
+    letter-spacing: .12em
+  }
+}
+
+/* character-card Urdu names stay right-aligned on phones too (the centered Urdu title rule was leaking onto them) */
+.np .char .ur {
+  text-align: right
+}
+
+/* ===== Nav breathing room ===== */
+nav .nv {
+  padding-top: 14px;
+  padding-bottom: 14px
+}
+
+@media (max-width: 640px) {
+  nav .nv {
+    padding-top: 12px;
+    padding-bottom: 12px
+  }
+}
+
+/* ===== Phone: slightly smaller Urdu text ===== */
+@media (max-width: 640px) {
+  .ub {
+    font-size: 1.1rem
+  }
+
+  .feat .ub {
+    font-size: 1.05rem
+  }
+
+  .lines p.ub,
+  .lines p.ub:last-child {
+    font-size: 1.12rem;
+    line-height: 2.4
+  }
+
+  .feat .ur {
+    font-size: 1.3rem
+  }
+
+  .np .ur {
+    font-size: 1.55rem
+  }
+
+  .about .ur {
+    font-size: 1.2rem
+  }
+
+  .np .char .ur {
+    font-size: 1.2rem
+  }
+}
+
+/* ===== New-episode popup ===== */
+.pop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(74, 34, 24, .45);
+  backdrop-filter: blur(3px);
+  animation: fade .4s
+}
+
+.pop[hidden] { display: none }
+
+.pop-card {
+  position: relative;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 34px 28px 30px;
+  box-shadow: 0 24px 60px rgba(74, 34, 24, .35)
+}
+
+.pop-card::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px dashed var(--line);
+  border-radius: 20px;
+  pointer-events: none
+}
+
+.pop-card h3 { font-style: italic; font-size: 1.5rem; margin: 14px 0 0 }
+.pop-card .ur { font-size: 1.6rem; color: var(--accent); margin: 0 }
+.pop-s { color: var(--soft); margin: 6px 0 22px }
+
+.pop-x {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  z-index: 1;
+  background: none;
+  border: 0;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: var(--accent);
+  cursor: pointer;
+  padding: 6px 10px
+}
+
+/* ===== Round writer portrait ===== */
+.pfp {
+  width: clamp(150px, 38vw, 210px);
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  margin: 0 auto 22px;
+  object-fit: cover;
+  box-shadow: 0 14px 34px rgba(141, 73, 58, .22)
+}
