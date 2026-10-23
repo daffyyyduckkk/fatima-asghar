@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://fatima-asghar.netlify.app/sitemap.xml
+Sitemap: https://fatimaasgharnovels.netlify.app/sitemap.xml
