@@ -33,7 +33,11 @@ const NOVELS = [
       ["Episode 3", "Published", "https://drive.google.com/file/d/1Yf_c8aWoMLm1pVvbEmqT5jmGsJMyNctC/view?usp=sharing"],
       ["Episode 4", "Published", "https://drive.google.com/file/d/1X86PeRNIQAtuKnuCAL43UAa-pipPEoVs/view?usp=sharing"],
       ["Episode 5", "Published", "https://drive.google.com/file/d/1pMGpeNNVIUzq3EJyr7nTqzgWWmFjSKSU/view?usp=sharing"],
-      ["Episode 6", "Coming Soon"],
+      ["Episode 6", "Published", "https://drive.google.com/file/d/1sx9aydljQDLDxFqvg-YjTDd3z46A-15-/view?usp=sharing"],
+      ["Episode 7", "Published", "https://drive.google.com/file/d/12L_thXJ0ANRW9Pdth_38qurlMV4YWtet/view?usp=sharing"],
+      ["Episode 8", "Published", "https://drive.google.com/file/d/1bShtsutpCmdxp9qCGZ7q53PRmSRwgUS3/view?usp=sharing"],  
+      ["Episode 9", "Published", "https://drive.google.com/file/d/1LBqU7Tj4uKaKUPNqRQ6zY1dT3z03nZXC/view?usp=sharing"], 
+      ["Episode 10", "Coming Soon"],
     ]
   }
 ];
