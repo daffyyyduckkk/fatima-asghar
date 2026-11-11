@@ -1,20 +1,50 @@
 // ===== EDIT HERE when you publish a new episode =====
-// 1) change `ep`, `count` and `link` below to the newest episode.
-// 2) visitors who haven't seen it get the popup once.
-const LATEST = {
-  id: "maqsad",
-  title: "Maqsad",
-  ur: "مقصد",
-  ep: "Episode 9",
-  count: 9,
-  link: "https://drive.google.com/file/d/1LBqU7Tj4uKaKUPNqRQ6zY1dT3z03nZXC/view?usp=sharing"
+// Add the new episode's link as ONE new line at the END of the list below.
+// That's it: the episode list, the "Episode N" label and the popup update by themselves.
+// (Optional) set `soon: true` to show a "Coming soon" placeholder after the last episode.
+const NOVELS = {
+  maqsad: {
+    title: "Maqsad",
+    ur: "مقصد",
+    soon: true,
+    episodes: [
+      "https://drive.google.com/file/d/1bx4zuBng0N1-0Kgtf6HNzt00x6Wq-5lL/view?usp=sharing",
+      "https://drive.google.com/file/d/1OEEJRFoJmDVyvtqVFHDKDjZs9TnBan23/view?usp=sharing",
+      "https://drive.google.com/file/d/1Yf_c8aWoMLm1pVvbEmqT5jmGsJMyNctC/view?usp=sharing",
+      "https://drive.google.com/file/d/1X86PeRNIQAtuKnuCAL43UAa-pipPEoVs/view?usp=sharing",
+      "https://drive.google.com/file/d/1pMGpeNNVIUzq3EJyr7nTqzgWWmFjSKSU/view?usp=sharing",
+      "https://drive.google.com/file/d/1sx9aydljQDLDxFqvg-YjTDd3z46A-15-/view?usp=sharing",
+      "https://drive.google.com/file/d/18p9eopWk5Tr7UYdvEbOlhRxlOmE6dHyk/view?usp=sharing",
+      "https://drive.google.com/file/d/1bShtsutpCmdxp9qCGZ7q53PRmSRwgUS3/view?usp=sharing",
+      "https://drive.google.com/file/d/1LBqU7Tj4uKaKUPNqRQ6zY1dT3z03nZXC/view?usp=sharing",
+      "https://drive.google.com/file/d/1EVQJMXBtWCbxBgZZtOSQo__28JnDBrqe/view?usp=sharing",
+    ]
+  }
 };
+// The popup announces this novel's newest episode:
+const FEATURED = "maqsad";
 // ====================================================
+
+const LATEST = (() => {
+  const n = NOVELS[FEATURED], count = n.episodes.length;
+  return { id: FEATURED, title: n.title, ur: n.ur, ep: "Episode " + count, count, link: n.episodes[count - 1] };
+})();
 
 const $ = s => document.querySelector(s);
 
 /* year */
 const yr = $('#yr'); if (yr) yr.textContent = new Date().getFullYear();
+
+/* ---------- Episode list (built from NOVELS above) ---------- */
+(function () {
+  const ol = $('#eps'); if (!ol) return;
+  const n = NOVELS[ol.dataset.novel]; if (!n) return;
+  ol.innerHTML = n.episodes.map((url, i) =>
+    `<li><a href="${url}" target="_blank" rel="noopener"><span>Episode ${i + 1}</span><span class="st">Published →</span></a></li>`
+  ).join('') + (n.soon
+    ? `<li><span class="e soon"><span>Episode ${n.episodes.length + 1}</span><span class="st">Coming soon</span></span></li>`
+    : '');
+})();
 
 /* ---------- Sidebar drawer (phones) ---------- */
 (function () {
