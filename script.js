@@ -138,7 +138,7 @@ const yr = $('#yr'); if (yr) yr.textContent = new Date().getFullYear();
   $('#popT').textContent = LATEST.title + ' — ' + LATEST.ep + ' is out!';
   $('#popU').textContent = LATEST.ur;
   $('#popS').textContent = 'A new chapter has just been published.';
-  const go = $('#popGo'); go.href = LATEST.link;
+  const go = $('#popGo'); go.href = LATEST.link; go.target = '_blank'; go.rel = 'noopener';
 
   const esc = e => { if (e.key === 'Escape') close(); };
   const close = () => { pop.hidden = true; set(LATEST.count); document.removeEventListener('keydown', esc); };
