@@ -18,6 +18,7 @@ const NOVELS = {
       "https://drive.google.com/file/d/1bShtsutpCmdxp9qCGZ7q53PRmSRwgUS3/view?usp=sharing",
       "https://drive.google.com/file/d/1LBqU7Tj4uKaKUPNqRQ6zY1dT3z03nZXC/view?usp=sharing",
       "https://drive.google.com/file/d/1EVQJMXBtWCbxBgZZtOSQo__28JnDBrqe/view?usp=sharing",
+      "https://drive.google.com/file/d/1ahrMJ7skEF37CiAGjkUif5dBGKdsNazE/view?usp=sharing",
     ]
   }
 };
