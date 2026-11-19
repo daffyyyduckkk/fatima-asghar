@@ -1,34 +1,17 @@
-// ===== EDIT HERE when you publish a new episode =====
-// Add the new episode's link as ONE new line at the END of the list below.
-// That's it: the episode list, the "Episode N" label and the popup update by themselves.
-// (Optional) set `soon: true` to show a "Coming soon" placeholder after the last episode.
-const NOVELS = {
-  maqsad: {
-    title: "Maqsad",
-    ur: "مقصد",
-    soon: true,
-    episodes: [
-      "https://drive.google.com/file/d/1bx4zuBng0N1-0Kgtf6HNzt00x6Wq-5lL/view?usp=sharing",
-      "https://drive.google.com/file/d/1OEEJRFoJmDVyvtqVFHDKDjZs9TnBan23/view?usp=sharing",
-      "https://drive.google.com/file/d/1Yf_c8aWoMLm1pVvbEmqT5jmGsJMyNctC/view?usp=sharing",
-      "https://drive.google.com/file/d/1X86PeRNIQAtuKnuCAL43UAa-pipPEoVs/view?usp=sharing",
-      "https://drive.google.com/file/d/1pMGpeNNVIUzq3EJyr7nTqzgWWmFjSKSU/view?usp=sharing",
-      "https://drive.google.com/file/d/1sx9aydljQDLDxFqvg-YjTDd3z46A-15-/view?usp=sharing",
-      "https://drive.google.com/file/d/18p9eopWk5Tr7UYdvEbOlhRxlOmE6dHyk/view?usp=sharing",
-      "https://drive.google.com/file/d/1bShtsutpCmdxp9qCGZ7q53PRmSRwgUS3/view?usp=sharing",
-      "https://drive.google.com/file/d/1LBqU7Tj4uKaKUPNqRQ6zY1dT3z03nZXC/view?usp=sharing",
-      "https://drive.google.com/file/d/1EVQJMXBtWCbxBgZZtOSQo__28JnDBrqe/view?usp=sharing",
-      "https://drive.google.com/file/d/1ahrMJ7skEF37CiAGjkUif5dBGKdsNazE/view?usp=sharing",
-    ]
-  }
-};
-// The popup announces this novel's newest episode:
-const FEATURED = "maqsad";
-// ====================================================
+// Episode data lives in episodes.js (loaded before this file) -- edit THAT file, not this one.
 
 const LATEST = (() => {
-  const n = NOVELS[FEATURED], count = n.episodes.length;
-  return { id: FEATURED, title: n.title, ur: n.ur, ep: "Episode " + count, count, link: n.episodes[count - 1] };
+  const n = NOVELS[FEATURED];
+  const list = (n.episodes || []).filter(e => e && e.title && e.link);
+  if (!list.length) return null;
+  const last = list[list.length - 1];
+  const isEp = /^\s*episode\b/i.test(last.title);
+  return {
+    id: FEATURED, title: n.title, ur: n.ur, count: list.length, link: last.link,
+    label: last.title + (last.tag ? ' (' + last.tag + ')' : ''),
+    pill: isEp ? 'New episode' : 'New update',
+    note: last.note || (isEp ? 'A new chapter has just been published.' : 'A new update has just been published.')
+  };
 })();
 
 const $ = s => document.querySelector(s);
@@ -36,15 +19,32 @@ const $ = s => document.querySelector(s);
 /* year */
 const yr = $('#yr'); if (yr) yr.textContent = new Date().getFullYear();
 
-/* ---------- Episode list (built from NOVELS above) ---------- */
+/* ---------- Episode list (built from episodes.js) ---------- */
 (function () {
   const ol = $('#eps'); if (!ol) return;
   const n = NOVELS[ol.dataset.novel]; if (!n) return;
-  ol.innerHTML = n.episodes.map((url, i) =>
-    `<li><a href="${url}" target="_blank" rel="noopener"><span>Episode ${i + 1}</span><span class="st">Published →</span></a></li>`
-  ).join('') + (n.soon
-    ? `<li><span class="e soon"><span>Episode ${n.episodes.length + 1}</span><span class="st">Coming soon</span></span></li>`
-    : '');
+  const list = (n.episodes || []).filter(e => e && e.title && e.link);
+  const mk = (tag, cls) => { const el = document.createElement(tag); if (cls) el.className = cls; return el; };
+
+  list.forEach(ep => {
+    const li = mk('li'), a = mk('a');
+    a.href = ep.link; a.target = '_blank'; a.rel = 'noopener';
+    const name = mk('span'); name.textContent = ep.title;
+    if (ep.tag) { const b = mk('em', 'badge'); b.textContent = ep.tag; name.append(' ', b); }
+    const st = mk('span', 'st'); st.textContent = 'Published \u2192';
+    a.append(name, st); li.append(a); ol.append(li);
+  });
+
+  // "Coming soon" placeholder: hidden once the story is marked finished
+  const finished = list.some(e => /^(last|final|complete[d]?|end)$/i.test((e.tag || '').trim()));
+  if (n.soon && !finished) {
+    const nums = list.map(e => /^\s*episode\s+(\d+)/i.exec(e.title)).filter(Boolean).map(m => +m[1]);
+    const next = (nums.length ? Math.max(...nums) : 0) + 1;
+    const li = mk('li'), box = mk('span', 'e soon');
+    const name = mk('span'); name.textContent = 'Episode ' + next;
+    const st = mk('span', 'st'); st.textContent = 'Coming soon';
+    box.append(name, st); li.append(box); ol.append(li);
+  }
 })();
 
 /* ---------- Sidebar drawer (phones) ---------- */
@@ -128,21 +128,26 @@ const yr = $('#yr'); if (yr) yr.textContent = new Date().getFullYear();
   red.matches ? P.forEach(leaf) : start();
 })();
 
-/* ---------- New-episode popup (once per visitor per new episode) ---------- */
+/* ---------- New-update popup (once per visitor per new last entry) ---------- */
 (function () {
-  const pop = $('#pop'); if (!pop) return;
-  const KEY = 'seenEp2:' + LATEST.id;
-  const get = () => { try { return +localStorage.getItem(KEY) || 0 } catch (e) { return 0 } };
+  const pop = $('#pop'); if (!pop || !LATEST) return;
+  const KEY = 'seenEp3:' + LATEST.id;       // remembers the LINK of the last entry the visitor has seen
+  const OLD = 'seenEp2:' + LATEST.id;       // old versions remembered an episode COUNT
+  const get = k => { try { return localStorage.getItem(k) } catch (e) { return null } };
   const set = v => { try { localStorage.setItem(KEY, v) } catch (e) { } };
-  if (get() >= LATEST.count) return;
 
-  $('#popT').textContent = LATEST.title + ' — ' + LATEST.ep + ' is out!';
+  const seen = get(KEY);
+  if (seen === LATEST.link) return;                                  // already saw this one
+  if (seen === null && (+get(OLD) || 0) >= LATEST.count) return;     // saw it under the old system
+
+  const pill = pop.querySelector('.pill'); if (pill) pill.textContent = LATEST.pill;
+  $('#popT').textContent = LATEST.title + ' \u2014 ' + LATEST.label + ' is out!';
   $('#popU').textContent = LATEST.ur;
-  $('#popS').textContent = 'A new chapter has just been published.';
+  $('#popS').textContent = LATEST.note;
   const go = $('#popGo'); go.href = LATEST.link; go.target = '_blank'; go.rel = 'noopener';
 
   const esc = e => { if (e.key === 'Escape') close(); };
-  const close = () => { pop.hidden = true; set(LATEST.count); document.removeEventListener('keydown', esc); };
+  const close = () => { pop.hidden = true; set(LATEST.link); document.removeEventListener('keydown', esc); };
 
   setTimeout(() => {
     pop.hidden = false;

@@ -319,3 +319,4 @@ details[open] summary::after{content:"–"}
 .ab-themes p{font-size:.88rem;line-height:1.7;color:var(--soft)}
 .ab-end .sub{margin-bottom:22px}
 @media (max-width:700px){.ab-themes ul{grid-template-columns:1fr}.ab-themes li{padding:22px 18px}}
+.eps .badge{font-style:normal;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:1px 9px;margin-left:8px;vertical-align:middle;background:rgba(248,237,227,.6)}
