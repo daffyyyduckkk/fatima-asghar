@@ -293,7 +293,7 @@ details[open] summary::after{content:"–"}
 .ab-intro .eyebrow{justify-content:center}
 .ab-intro .eyebrow::before{display:none}
 .ab-hero .nm{font-size:clamp(3.8rem,13vw,6.2rem);margin:12px 0 0;white-space:nowrap}
-.ab-lead{max-width:22em;margin:14px auto 0;font-size:clamp(1rem,2.6vw,1.2rem);color:var(--soft);font-style:italic}
+.ab-lead{max-width:22em;margin:14px auto 0;font-size:clamp(1rem,2.6vw,1.2rem);color:var(--soft)}
 @media (min-width:900px){
   .ab-hero{grid-template-columns:.8fr 1.2fr;text-align:left}
   .ab-photo{justify-self:center;width:min(100%,340px)}
