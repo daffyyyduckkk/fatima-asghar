@@ -56,6 +56,8 @@ const NOVELS = {
       { title: "Episode 9",  link: "https://drive.google.com/file/d/1LBqU7Tj4uKaKUPNqRQ6zY1dT3z03nZXC/view?usp=sharing" },
       { title: "Episode 10", link: "https://drive.google.com/file/d/1EVQJMXBtWCbxBgZZtOSQo__28JnDBrqe/view?usp=sharing" },
       { title: "Episode 11", link: "https://drive.google.com/file/d/1ahrMJ7skEF37CiAGjkUif5dBGKdsNazE/view?usp=sharing" },
+      { title: "Episode 12", tag: "Last", link: "https://drive.google.com/file/d/1BGp5WJbE3QfWWbc-Vd90MMoDSRAVMOnc/view?usp=sharing" },
+      { title: "Full PDF", tag: "Complete", link: "https://drive.google.com/file/d/1pHEkJcDUbv9RuHvgLR-Y1eKcbcimkxdN/view?usp=sharing" },
       // ↓↓ ADD NEW ENTRIES BELOW THIS LINE ↓↓
 
     ]
