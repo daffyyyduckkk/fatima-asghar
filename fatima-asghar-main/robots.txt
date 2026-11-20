@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://fatimaasgharnovels.netlify.app/sitemap.xml
